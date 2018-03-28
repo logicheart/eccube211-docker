@@ -1,0 +1,33 @@
+version: '3'
+services:
+  smtp:
+    image: schickling/mailcatcher
+    container_name: eccube211_smtp
+    ports:
+      - '1080:1080'
+      - '1025:1025'
+
+  mysql:
+    build: ./docker/mysql
+    container_name: eccube211_mysql
+    volumes:
+      - db_data:/var/lib/mysql
+    env_file: .env
+    restart: always
+
+  apache:
+    build: ./docker/php56apache
+    container_name: eccube211_apache
+    depends_on:
+      - mysql
+    ports:
+      - '80:80'
+      - '443:443'
+    env_file: .env
+    restart: always
+    volumes:
+      - ./eccube/html:/var/www/html
+      - ./eccube/data:/var/www/data
+
+volumes:
+  db_data:

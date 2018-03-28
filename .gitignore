@@ -1,0 +1,8 @@
+.DS_Store
+*.log
+*.bak
+composer.phar
+/.env
+/temp
+/node_modules
+/vendor
